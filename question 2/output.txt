@@ -1,0 +1,115 @@
+
+=== Initial passenger records ===
+  Alice -> risk score 72
+  Brian -> risk score 45
+  Chen -> risk score 91
+  Fatima -> risk score 63
+  Noah -> risk score 88
+  Sofia -> risk score 55
+
+Initial array layout (before max-heap build):
+  Array (level-order): [Alice(72), Brian(45), Chen(91), Fatima(63), Noah(88), Sofia(55)]
+  Binary tree (level-order layout):
+    Level 0:                                                               Alice(72)
+    Level 1:                               Brian(45)                                                               Chen(91)
+    Level 2:               Fatima(63)                               Noah(88)                               Sofia(55)
+
+=== Task 1: Build Max-Heap from passenger list ===
+Bottom-up heapify from last non-leaf index 2 down to root.
+
+--- Heapify-down at index 2 ---
+
+  Heapify-down from index 2 (Chen, risk 91) (build phase)
+    Max-heap property satisfied at index 2.
+
+--- Heapify-down at index 1 ---
+
+  Heapify-down from index 1 (Brian, risk 45) (build phase)
+    Swap index 1 Brian(45) with index 4 Noah(88)
+    Max-heap property satisfied at index 4.
+
+--- Heapify-down at index 0 ---
+
+  Heapify-down from index 0 (Alice, risk 72) (build phase)
+    Swap index 0 Alice(72) with index 2 Chen(91)
+    Max-heap property satisfied at index 2.
+
+Max-Heap after build (Task 1 complete):
+  Array (level-order): [Chen(91), Noah(88), Alice(72), Fatima(63), Brian(45), Sofia(55)]
+  Binary tree (level-order layout):
+    Level 0:                                                               Chen(91)
+    Level 1:                               Noah(88)                                                               Alice(72)
+    Level 2:               Fatima(63)                               Brian(45)                               Sofia(55)
+  Max-heap check (after build): VALID
+
+=== Task 2: Extract priority queue (screening order) ===
+Each extract-max removes the root and applies heapify-down on the copy.
+Screening order (highest risk first):
+
+  1. Chen(91)
+  2. Noah(88)
+  3. Alice(72)
+  4. Fatima(63)
+  5. Sofia(55)
+  6. Brian(45)
+
+Screening order: highest risk score processed first.
+
+Original heap unchanged after extraction demo:
+  Array (level-order): [Chen(91), Noah(88), Alice(72), Fatima(63), Brian(45), Sofia(55)]
+  Binary tree (level-order layout):
+    Level 0:                                                               Chen(91)
+    Level 1:                               Noah(88)                                                               Alice(72)
+    Level 2:               Fatima(63)                               Brian(45)                               Sofia(55)
+  Max-heap check (after priority queue extraction demo): VALID
+
+=== Task 3: Insert new passenger David with risk score 98 ===
+Step 1: Append passenger at end of array (index 6).
+
+Heap after append (before re-heapify):
+  Array (level-order): [Chen(91), Noah(88), Alice(72), Fatima(63), Brian(45), Sofia(55), David(98)]
+  Binary tree (level-order layout):
+    Level 0:                                                               Chen(91)
+    Level 1:                               Noah(88)                                                               Alice(72)
+    Level 2:               Fatima(63)                               Brian(45)                               Sofia(55)                               David(98)
+
+Step 2: Re-adjust using heapify-up to preserve max-heap property.
+  Heapify-up from index 6 (David, risk 98)
+    Swap index 6 David(98) with parent index 2 Alice(72)
+    Swap index 2 David(98) with parent index 0 Chen(91)
+    Reached root. Max-heap property restored.
+
+Final heap after insertion:
+  Array (level-order): [David(98), Noah(88), Chen(91), Fatima(63), Brian(45), Sofia(55), Alice(72)]
+  Binary tree (level-order layout):
+    Level 0:                                                               David(98)
+    Level 1:                               Noah(88)                                                               Chen(91)
+    Level 2:               Fatima(63)                               Brian(45)                               Sofia(55)                               Alice(72)
+  Max-heap check (after insert 98): VALID
+
+=== Task 4: Remove passenger with risk score 98 ===
+Found passenger David(98) at index 0.
+Step 1: Replace removed node with last element in heap.
+  Moved Alice(72) from former last index to index 0.
+
+Heap after replacement (before re-heapify):
+  Array (level-order): [Alice(72), Noah(88), Chen(91), Fatima(63), Brian(45), Sofia(55)]
+  Binary tree (level-order layout):
+    Level 0:                                                               Alice(72)
+    Level 1:                               Noah(88)                                                               Chen(91)
+    Level 2:               Fatima(63)                               Brian(45)                               Sofia(55)
+
+Step 2: Re-adjust root using heapify-down.
+  Heapify-down from index 0 (Alice, risk 72) (delete phase)
+    Swap index 0 Alice(72) with index 2 Chen(91)
+    Max-heap property satisfied at index 2.
+
+Final heap after removal:
+  Array (level-order): [Chen(91), Noah(88), Alice(72), Fatima(63), Brian(45), Sofia(55)]
+  Binary tree (level-order layout):
+    Level 0:                                                               Chen(91)
+    Level 1:                               Noah(88)                                                               Alice(72)
+    Level 2:               Fatima(63)                               Brian(45)                               Sofia(55)
+  Max-heap check (after remove 98): VALID
+
+Output saved to output.txt
