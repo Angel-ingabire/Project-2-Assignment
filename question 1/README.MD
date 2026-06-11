@@ -68,7 +68,6 @@ P = {42, 17, 93, 28, 65, 81, 54, 60, 99, 73, 88}
 |------|-------------|
 | `max_heap_scheduler.c` | Main C source code |
 | `output.txt` | Program output (auto-generated on run) |
-| `Makefile` | Optional build helper |
 | `README.MD` | This documentation |
 
 ---
