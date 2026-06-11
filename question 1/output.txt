@@ -1,0 +1,126 @@
+
+=== Task 1: Build binary tree from array P ===
+Given priorities P = {42, 17, 93, 28, 65, 81, 54, 60, 99, 73, 88}
+
+=== Job identifiers (Task 1 continued) ===
+Each array index maps to a unique job ID:
+  Index  0 -> Job A, priority 42
+  Index  1 -> Job B, priority 17
+  Index  2 -> Job C, priority 93
+  Index  3 -> Job D, priority 28
+  Index  4 -> Job E, priority 65
+  Index  5 -> Job F, priority 81
+  Index  6 -> Job G, priority 54
+  Index  7 -> Job H, priority 60
+  Index  8 -> Job I, priority 99
+  Index  9 -> Job J, priority 73
+  Index 10 -> Job K, priority 88
+
+Initial binary tree (array representation, not yet a max-heap):
+  Array (level-order): [A(42), B(17), C(93), D(28), E(65), F(81), G(54), H(60), I(99), J(73), K(88)]
+  Binary tree (level-order layout):
+    Level 0:                                                               A(42)
+    Level 1:                               B(17)                                                               C(93)
+    Level 2:               D(28)                               E(65)                               F(81)                               G(54)
+    Level 3:       H(60)               I(99)               J(73)               K(88)
+
+=== Task 2: Convert binary tree to Max-Heap (bottom-up heapify) ===
+Starting from last non-leaf index 4 down to root index 0.
+
+--- Heapify-down at index 4 ---
+
+  Heapify-down from index 4 (E, priority 65) (build phase)
+    Swap index 4 E(65) with index 10 K(88)
+    Max-heap property satisfied at index 10.
+
+--- Heapify-down at index 3 ---
+
+  Heapify-down from index 3 (D, priority 28) (build phase)
+    Swap index 3 D(28) with index 8 I(99)
+    Max-heap property satisfied at index 8.
+
+--- Heapify-down at index 2 ---
+
+  Heapify-down from index 2 (C, priority 93) (build phase)
+    Max-heap property satisfied at index 2.
+
+--- Heapify-down at index 1 ---
+
+  Heapify-down from index 1 (B, priority 17) (build phase)
+    Swap index 1 B(17) with index 3 I(99)
+    Swap index 3 B(17) with index 7 H(60)
+    Max-heap property satisfied at index 7.
+
+--- Heapify-down at index 0 ---
+
+  Heapify-down from index 0 (A, priority 42) (build phase)
+    Swap index 0 A(42) with index 1 I(99)
+    Swap index 1 A(42) with index 4 K(88)
+    Swap index 4 A(42) with index 9 J(73)
+    Max-heap property satisfied at index 9.
+
+Max-Heap after build_heap (Task 2 complete):
+  Array (level-order): [I(99), K(88), C(93), H(60), J(73), F(81), G(54), B(17), D(28), A(42), E(65)]
+  Binary tree (level-order layout):
+    Level 0:                                                               I(99)
+    Level 1:                               K(88)                                                               C(93)
+    Level 2:               H(60)                               J(73)                               F(81)                               G(54)
+    Level 3:       B(17)               D(28)               A(42)               E(65)
+  Max-heap check (after build): VALID
+
+=== Task 3: Insert urgent job L with priority 100 ===
+Step 1: Append new job at end of array (index 11).
+
+Heap after append (before re-heapify):
+  Array (level-order): [I(99), K(88), C(93), H(60), J(73), F(81), G(54), B(17), D(28), A(42), E(65), L(100)]
+  Binary tree (level-order layout):
+    Level 0:                                                               I(99)
+    Level 1:                               K(88)                                                               C(93)
+    Level 2:               H(60)                               J(73)                               F(81)                               G(54)
+    Level 3:       B(17)               D(28)               A(42)               E(65)               L(100)
+
+Step 2: Re-adjust using heapify-up (bubble up) to restore max-heap property.
+  Heapify-up from index 11 (L, priority 100)
+    Swap index 11 L(100) with parent index 5 F(81)
+    Swap index 5 L(100) with parent index 2 C(93)
+    Swap index 2 L(100) with parent index 0 I(99)
+    Reached root. Max-heap property restored.
+
+Final heap after insertion:
+  Array (level-order): [L(100), K(88), I(99), H(60), J(73), C(93), G(54), B(17), D(28), A(42), E(65), F(81)]
+  Binary tree (level-order layout):
+    Level 0:                                                               L(100)
+    Level 1:                               K(88)                                                               I(99)
+    Level 2:               H(60)                               J(73)                               C(93)                               G(54)
+    Level 3:       B(17)               D(28)               A(42)               E(65)               F(81)
+  Max-heap check (after insert 100): VALID
+
+=== Task 4: Remove job with priority 100 ===
+Found job L(100) at index 0.
+Step 1: Replace removed node with last element in heap.
+  Moved F(81) from former last index to index 0.
+
+Heap after replacement (before re-heapify):
+  Array (level-order): [F(81), K(88), I(99), H(60), J(73), C(93), G(54), B(17), D(28), A(42), E(65)]
+  Binary tree (level-order layout):
+    Level 0:                                                               F(81)
+    Level 1:                               K(88)                                                               I(99)
+    Level 2:               H(60)                               J(73)                               C(93)                               G(54)
+    Level 3:       B(17)               D(28)               A(42)               E(65)
+
+Step 2: Re-adjust root using heapify-down.
+  Heapify-down from index 0 (F, priority 81) (delete phase)
+    Swap index 0 F(81) with index 2 I(99)
+    Swap index 2 F(81) with index 5 C(93)
+    Max-heap property satisfied at index 5.
+
+Final heap after removal:
+  Array (level-order): [I(99), K(88), C(93), H(60), J(73), F(81), G(54), B(17), D(28), A(42), E(65)]
+  Binary tree (level-order layout):
+    Level 0:                                                               I(99)
+    Level 1:                               K(88)                                                               C(93)
+    Level 2:               H(60)                               J(73)                               F(81)                               G(54)
+    Level 3:       B(17)               D(28)               A(42)               E(65)
+  Max-heap check (after remove 100): VALID
+
+Output saved to output.txt
